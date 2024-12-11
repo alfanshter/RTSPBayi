@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "827202993430",
+    "project_id": "deteksibayi",
+    "storage_bucket": "deteksibayi.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:827202993430:android:838469d688b9c2cc706437",
+        "android_client_info": {
+          "package_name": "com.putra.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAz-1XY0oCggsOla2TobRLeD8YejAeNZgw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

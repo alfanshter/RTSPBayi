@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">DeteksiBayi</string>
+    <string name="login">Login</string>
+    <string name="signup">Signup</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="video">Video</string>
+    <string name="detailvideo">Video</string>
+    <string name="deteksi">Deteksi</string>
+    <string name="logout">Logout</string>
+</resources>
