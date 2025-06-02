@@ -1,10 +1,12 @@
 package com.hanif.deteksiperson.ui.home.dashboard
 
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
@@ -59,29 +61,53 @@ fun CctvScreen(navController: NavController) {
 @Composable
 fun VideoPlayerScreen() {
     val context = LocalContext.current
-    val videoUrl = "rtsp://172.20.10.14:8554/live" // Ganti dengan URL RTSP Anda
+    val rtspUrl = "rtsp://172.20.10.14:8554/live"
 
-    // Inisialisasi ExoPlayer
-    val player = remember { ExoPlayer.Builder(context).build() }
+        try {
+            // Intent untuk membuka VLC secara langsung
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.setPackage("org.videolan.vlc")
+            intent.setDataAndType(Uri.parse(rtspUrl), "video/*")
+            intent.putExtra("title", "Streaming RTSP")
 
-    // Memuat media
-    val mediaItem = MediaItem.fromUri(Uri.parse(videoUrl))
-    player.setMediaItem(mediaItem)
-    player.prepare()
-    player.playWhenReady = true
+            context.startActivity(intent)
+        } catch (e: Exception) {
+            // Jika VLC tidak terinstall, buka di player lain
+            val fallbackIntent = Intent(Intent.ACTION_VIEW)
+            fallbackIntent.data = Uri.parse(rtspUrl)
 
-    // Menggunakan PlayerView untuk menampilkan video
-    Box(modifier = Modifier.fillMaxSize()) {
-        AndroidView(
-            factory = { PlayerView(context).apply { this.player = player } },
-            modifier = Modifier.fillMaxSize()
-        )
-    }
-
-    // Membersihkan player saat komponen dihapus
-    DisposableEffect(Unit) {
-        onDispose {
-            player.release()
+            try {
+                context.startActivity(fallbackIntent)
+            } catch (e: Exception) {
+                // Tampilkan pesan error jika tidak ada aplikasi yang bisa membuka
+                Toast.makeText(context, "Tidak ada aplikasi yang dapat membuka stream ini", Toast.LENGTH_SHORT).show()
+            }
         }
     }
-}
+
+//    val context = LocalContext.current
+//    val videoUrl = "rtsp://172.20.10.14:8554/live" // Ganti dengan URL RTSP Anda
+//
+//    // Inisialisasi ExoPlayer
+//    val player = remember { ExoPlayer.Builder(context).build() }
+//
+//    // Memuat media
+//    val mediaItem = MediaItem.fromUri(Uri.parse(videoUrl))
+//    player.setMediaItem(mediaItem)
+//    player.prepare()
+//    player.playWhenReady = true
+//
+//    // Menggunakan PlayerView untuk menampilkan video
+//    Box(modifier = Modifier.fillMaxSize()) {
+//        AndroidView(
+//            factory = { PlayerView(context).apply { this.player = player } },
+//            modifier = Modifier.fillMaxSize()
+//        )
+//    }
+//
+//    // Membersihkan player saat komponen dihapus
+//    DisposableEffect(Unit) {
+//        onDispose {
+//            player.release()
+//        }
+//    }
