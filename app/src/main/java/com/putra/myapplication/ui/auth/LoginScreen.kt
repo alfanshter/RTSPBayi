@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,10 +33,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,6 +51,7 @@ import com.hanif.detectionperson.data.Resource
 import com.hanif.detectionperson.ui.faker.FakeViewModelProvider
 import com.hanif.deteksiperson.ui.home.HomeActivity
 import com.hanif.deteksiperson.ui.utils.startNewActivity
+import com.ptpws.agrogontafarm.ui.common.poppinsFamily
 import com.putra.myapplication.R
 import com.putra.myapplication.ui.theme.DeteksiBayiTheme
 
@@ -68,83 +73,98 @@ fun LoginScreen(viewModel: AuthViewModel, navController: NavController) {
         color = colorResource(id = R.color.white),
         modifier = Modifier.fillMaxSize()
     ) {
-        Column(
-            Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = "Selamat datang di aplikasi monitoring bayi",
-                fontSize = 24.sp,
-                color = Color.Black,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
-
-            Spacer(modifier = Modifier.height(30.dp))
+        Box(modifier = Modifier.fillMaxSize()) {
             Image(
-                painter = painterResource(id = R.drawable.logo), contentDescription = "",
-                modifier = Modifier.size(200.dp)
+                painter = painterResource(R.drawable.bgbayi), contentDescription = null, modifier =
+                    Modifier.fillMaxSize(), contentScale = ContentScale.FillBounds
             )
 
-            Spacer(modifier = Modifier.height(30.dp))
-            TextField(
-                value = email,
-                onValueChange = { email = it },
-                placeholder = { Text(text = "Masukkan Email") },
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(12.dp),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-                colors = TextFieldDefaults.textFieldColors(
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent
-                )
-            )
-            Spacer(modifier = Modifier.height(12.dp))
-            TextField(
-                value = password,
-                onValueChange = { password = it },
-                placeholder = { Text(text = "Masukkan Password") },
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(12.dp),
-                colors = TextFieldDefaults.textFieldColors(
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent
-                ),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
-            )
-            Spacer(modifier = Modifier.height(16.dp))
+            Column(
+                Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
 
-            Button(
-                onClick = { viewModel.login(email, password) },
-                modifier = Modifier
-                    .fillMaxWidth(0.5f)
             ) {
-                Text(text = "Login")
-            }
+                Spacer(Modifier.height(30.dp))
+                Image(
+                    painter = painterResource(id = R.drawable.bayi), contentDescription = "",
+                    modifier = Modifier.size(200.dp)
+                )
+                Spacer(Modifier.height(30.dp))
 
-            Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = "MONITORING BAYI",
+                    fontSize = 24.sp,
+                    color = Color.Black,
+                    fontFamily = poppinsFamily,
+                    fontWeight = FontWeight.ExtraBold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
 
-            loginFlow.value?.let {
-                when (it) {
-                    is Resource.Failure -> {
-                        Toast.makeText(context, it.exception.message, Toast.LENGTH_LONG).show()
-                    }
+                Spacer(modifier = Modifier.height(30.dp))
 
-                    is Resource.Success -> {
-                        LaunchedEffect(Unit) {
-                            context.startNewActivity(HomeActivity::class.java)
+
+                Spacer(modifier = Modifier.height(30.dp))
+                TextField(
+                    value = email,
+                    onValueChange = { email = it },
+                    placeholder = { Text(text = "Masukkan Email") },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                    colors = TextFieldDefaults.textFieldColors(
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent
+                    )
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                TextField(
+                    value = password,
+                    onValueChange = { password = it },
+                    placeholder = { Text(text = "Masukkan Password") },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp),
+                    colors = TextFieldDefaults.textFieldColors(
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent
+                    ),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Button(
+                    onClick = { viewModel.login(email, password) },
+                    modifier = Modifier
+                        .fillMaxWidth(0.5f)
+                ) {
+                    Text(text = "Login")
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                loginFlow.value?.let {
+                    when (it) {
+                        is Resource.Failure -> {
+                            Toast.makeText(context, it.exception.message, Toast.LENGTH_LONG).show()
                         }
-                    }
 
-                    Resource.Loading -> {
-                        CircularProgressIndicator()
-                    }
+                        is Resource.Success -> {
+                            LaunchedEffect(Unit) {
+                                context.startNewActivity(HomeActivity::class.java)
+                            }
+                        }
 
-                    else -> {}
+                        Resource.Loading -> {
+                            CircularProgressIndicator()
+                        }
+
+                        else -> {}
+                    }
                 }
             }
         }
+
     }
 }
 

@@ -59,7 +59,7 @@ fun CctvScreen(navController: NavController) {
 @Composable
 fun VideoPlayerScreen() {
     val context = LocalContext.current
-    val videoUrl = "rtsp://192.168.100.255:8554/live" // Ganti dengan URL RTSP Anda
+    val videoUrl = "rtsp://172.20.10.14:8554/live" // Ganti dengan URL RTSP Anda
 
     // Inisialisasi ExoPlayer
     val player = remember { ExoPlayer.Builder(context).build() }
